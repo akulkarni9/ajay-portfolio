@@ -1,57 +1,31 @@
 import { kv } from '@vercel/kv';
 
-export const config = {
-  runtime: 'edge',
-};
+// This function runs on Vercel's standard Node.js runtime.
+export default async function handler(request, response) {
+  // Set CORS headers to allow requests from any origin
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-// Define allowed origins for CORS
-const allowedOrigins = [
-  'https://ajay-portfolio-navy.vercel.app',
-  'http://localhost:5173', // Your local development environment
-];
-
-export default async function handler(request) {
-  const origin = request.headers.get('origin');
-  const headers = new Headers();
-  headers.set('Content-Type', 'application/json');
-  
-  // Set CORS headers dynamically based on the request origin
-  if (origin && allowedOrigins.includes(origin)) {
-    headers.set('Access-Control-Allow-Origin', origin);
-  }
-  
-  headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  headers.set('Access-Control-Allow-Headers', 'Content-Type');
-
-  // Handle preflight OPTIONS requests for CORS
+  // Handle preflight requests sent by browsers
   if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      status: 204, // No Content
-      headers: headers,
-    });
+    return response.status(204).end();
   }
 
   try {
     const key = 'portfolio-views';
     
     if (request.method === 'POST') {
+      // If it's a new visit, increment the counter
       const count = await kv.incr(key);
-      return new Response(JSON.stringify({ count }), {
-        status: 200,
-        headers: headers,
-      });
-    } else { // This handles GET requests
-      const count = (await kv.get(key)) || 0;
-      return new Response(JSON.stringify({ count: Number(count) }), {
-        status: 200,
-        headers: headers,
-      });
+      return response.status(200).json({ count });
+    } else { 
+      // For any other request, just get the current count
+      const count = await kv.get(key) || 0;
+      return response.status(200).json({ count: Number(count) });
     }
   } catch (error) {
-    console.error(error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
-      status: 500,
-      headers: headers,
-    });
+    console.error('KV Error:', error);
+    return response.status(500).json({ error: 'Internal Server Error' });
   }
 }
