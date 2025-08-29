@@ -11,7 +11,7 @@ const portfolioData = {
   linkedin: "https://linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
-  headshotUrl: "/Ajay.jpg", // IMPORTANT: Make sure this image is in your /public folder
+  headshotUrl: "Ajay.jpg", // IMPORTANT: Make sure this image is in your /public folder
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
@@ -23,10 +23,11 @@ const portfolioData = {
     p3: "With over a decade of experience in software development, including 1.5 years in product management, I have delivered innovative solutions across industries. My expertise spans leading cross-functional teams, collaborating with PMOs, and delivering results through Agile methodologies while aligning technical solutions with business objectives.",
     p4: "Living with a hearing disability from birth has shaped my journey in profound ways. It has taught me the power of adaptability, perseverance, and clear communication. I embrace it as a strength that fuels my commitment to fostering inclusive collaboration and breaking down barriers in the tech industry."
   },
-  skills: [
-    "Engineering Leadership", "System Design", "Distributed Systems", "AI/ML",
-    "Agentic AI", "LLMs", "GCP", "AWS", "Azure", "Kubernetes", "React", "Python"
-  ],
+  skills: {
+    leadership: ["Engineering Leadership", "System Design", "Distributed Systems", "Agile Delivery"],
+    aiCloud: ["AI/ML", "Agentic AI", "LLMs", "GCP", "AWS", "Azure", "Kubernetes", "Python"],
+    fullStack: ["React", "Angular", "Flutter", "Kotlin", "Android"]
+  },
   experience: [
     {
       role: "Associate Manager – Software & Platforms",
@@ -76,6 +77,12 @@ const portfolioData = {
       title: "Market Matrix - AI Insights Platform",
       description: "Architected a greenfield, AI-powered platform to provide next-generation insights for insurance brokers, integrating Azure OpenAI and enterprise-grade security.",
       tags: ["AI/ML", "Azure", "System Design", "Security"],
+      features: [
+          "Real-time market trend analysis.",
+          "Generative AI-powered report summarization.",
+          "Enterprise-grade security with Imperva WAF & Entra ID.",
+          "Scalable, cloud-native architecture on Azure."
+      ],
       link: "#",
     },
     {
@@ -94,6 +101,12 @@ const portfolioData = {
       title: "Bordereaux Standardization Engine",
       description: "Developed a platform using a Fuzzy Logic and GPT-4o mapping engine to standardize complex insurance documents, reducing manual effort by over 40%.",
       tags: ["LLM", "GPT-4o", "Python", "Cloud Workflows"],
+      features: [
+        "Asynchronous cloud workflows for high throughput.",
+        "Fuzzy Logic matching for data mapping.",
+        "GPT-4o integration for intelligent standardization.",
+        "Achieved over 40% reduction in manual effort."
+      ],
       link: "#",
     },
   ],
@@ -125,25 +138,37 @@ const Logo = () => (
 );
 
 
-const SkillPill = ({ skill }) => (
-    <span className="inline-block bg-indigo-100 dark:bg-slate-700 text-indigo-800 dark:text-indigo-300 rounded-full px-4 py-2 text-sm font-medium mr-2 mb-2 shadow-sm">
+const SkillPill = ({ skill, delay }) => (
+    <span 
+        className="inline-block bg-indigo-100 dark:bg-slate-700 text-indigo-800 dark:text-indigo-300 rounded-full px-4 py-2 text-sm font-medium mr-2 mb-2 shadow-sm animate-fade-in-up"
+        style={{ animationDelay: `${delay}ms` }}
+    >
         {skill}
     </span>
 );
 
-const ProjectCard = ({ project, index }) => (
-    <div className="bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-        <div className="p-6">
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{project.title}</h3>
-            <p className="text-slate-600 dark:text-slate-300 mb-4 text-base">{project.description}</p>
-            <div className="flex flex-wrap mt-auto">
-                {project.tags.map(tag => <SkillPill key={tag} skill={tag} />)}
+const ProjectCard = ({ project, className = "" }) => (
+    <div className={`bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${className}`}>
+        <div className="p-6 flex flex-col h-full">
+            <div>
+                <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{project.title}</h3>
+                <p className="text-slate-600 dark:text-slate-300 mb-4 text-base">{project.description}</p>
+                {project.features && (
+                    <ul className="mt-4 list-disc list-inside text-slate-500 dark:text-slate-400 space-y-1.5 text-sm">
+                        {project.features.map(feature => <li key={feature}>{feature}</li>)}
+                    </ul>
+                )}
             </div>
-            {project.link !== "#" && (
-                <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-6 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold group">
-                    View Project <ArrowUpRight size={16} className="ml-1 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </a>
-            )}
+            <div className="mt-auto pt-4">
+                <div className="flex flex-wrap gap-2">
+                    {project.tags.map(tag => <SkillPill key={tag} skill={tag} delay={0} />)}
+                </div>
+                {project.link !== "#" && (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-6 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold group">
+                        View Project <ArrowUpRight size={16} className="ml-1 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    </a>
+                )}
+            </div>
         </div>
     </div>
 );
@@ -364,19 +389,38 @@ const BackToTopButton = () => {
 export default function App() {
     const [showResumeViewer, setShowResumeViewer] = useState(false);
     const [activeSection, setActiveSection] = useState('');
+    const [animatedSkills, setAnimatedSkills] = useState(false);
 
     useEffect(() => {
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     setActiveSection(entry.target.id);
+                    if (entry.target.id === 'skills') {
+                        setAnimatedSkills(true);
+                    }
                 }
             });
         }, { rootMargin: "-50% 0px -50% 0px" });
 
+        const skillsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    setAnimatedSkills(true);
+                }
+            });
+        }, { threshold: 0.2 });
+
+
         document.querySelectorAll('section').forEach(section => {
             sectionObserver.observe(section);
         });
+        
+        const skillsSection = document.getElementById('skills');
+        if (skillsSection) {
+            skillsObserver.observe(skillsSection);
+        }
+
 
         const styleTag = document.createElement('style');
         styleTag.innerHTML = `
@@ -431,11 +475,14 @@ export default function App() {
 
         return () => {
             sectionObserver.disconnect();
+            skillsObserver.disconnect();
             if (document.head.contains(styleTag)) {
                 document.head.removeChild(styleTag);
             }
         }
     }, []);
+
+    let skillDelay = 0;
 
     return (
         <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans leading-relaxed transition-colors duration-300">
@@ -462,19 +509,28 @@ export default function App() {
                         <div>
                             <h3 className="text-xl font-bold text-center mb-4">Leadership & Architecture</h3>
                             <div className="flex flex-wrap justify-center">
-                                {["Engineering Leadership", "System Design", "Distributed Systems", "Agile Delivery"].map(skill => <SkillPill key={skill} skill={skill} />)}
+                                {animatedSkills && portfolioData.skills.leadership.map(skill => {
+                                    skillDelay += 50;
+                                    return <SkillPill key={skill} skill={skill} delay={skillDelay} />
+                                })}
                             </div>
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-center mb-4">AI/Cloud Engineering</h3>
                             <div className="flex flex-wrap justify-center">
-                                {["AI/ML", "Agentic AI", "LLMs", "GCP", "AWS", "Azure", "Kubernetes", "Python"].map(skill => <SkillPill key={skill} skill={skill} />)}
+                                {animatedSkills && portfolioData.skills.aiCloud.map(skill => {
+                                    skillDelay += 50;
+                                    return <SkillPill key={skill} skill={skill} delay={skillDelay} />
+                                })}
                             </div>
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-center mb-4">Full-Stack & Mobile</h3>
                             <div className="flex flex-wrap justify-center">
-                                {["React", "Angular", "Flutter", "Kotlin", "Android"].map(skill => <SkillPill key={skill} skill={skill} />)}
+                                {animatedSkills && portfolioData.skills.fullStack.map(skill => {
+                                     skillDelay += 50;
+                                     return <SkillPill key={skill} skill={skill} delay={skillDelay} />
+                                })}
                             </div>
                         </div>
                     </div>
@@ -487,8 +543,11 @@ export default function App() {
                 </Section>
 
                 <Section id="projects" title="Featured Projects">
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {portfolioData.projects.map((project, index) => <ProjectCard key={project.title} project={project} index={index} />)}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <ProjectCard project={portfolioData.projects[0]} className="md:col-span-2" />
+                        <ProjectCard project={portfolioData.projects[1]} className="md:col-span-1" />
+                        <ProjectCard project={portfolioData.projects[2]} className="md:col-span-1" />
+                        <ProjectCard project={portfolioData.projects[3]} className="md:col-span-2" />
                     </div>
                 </Section>
 
