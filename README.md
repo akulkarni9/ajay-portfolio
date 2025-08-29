@@ -87,6 +87,8 @@ If you find this portfolio template useful and would like to show your appreciat
 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/akulkarni9)
 
+---
+
 ## 📄 License
 This project is distributed under the MIT License. See `LICENSE` for more information.
 
