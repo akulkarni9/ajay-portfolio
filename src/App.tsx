@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, 'useState', 'useEffect' } from 'react';
 import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap } from 'lucide-react';
 
 // --- TYPE DEFINITIONS ---
@@ -632,7 +632,7 @@ export default function App() {
                 <Section id="about" title="About Me">
                     <div className="grid md:grid-cols-3 gap-12 items-center">
                         <div className="md:col-span-1">
-                            <img src={portfolioData.headshotUrl} alt="Ajay Kulkarni" className="rounded-full w-64 h-64 mx-auto md:w-full md:h-auto shadow-lg" />
+                            <img src={portfolioData.headshotUrl} alt="Professional headshot of Ajay Kulkarni" className="rounded-full w-64 h-64 mx-auto md:w-full md:h-auto shadow-lg" />
                         </div>
                         <div className="md:col-span-2 space-y-4 text-lg text-slate-600 dark:text-slate-300 text-left">
                             <p>{portfolioData.about.p1}</p>
