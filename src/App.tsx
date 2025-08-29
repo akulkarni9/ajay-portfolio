@@ -78,7 +78,7 @@ const portfolioData: PortfolioData = {
   linkedin: "https://linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
-  headshotUrl: "https://placehold.co/400x400/1e293b/a78bfa?text=Ajay", // Placeholder, replace with your headshot URL
+  headshotUrl: "/Ajay.jpg", // Replace with your image
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
