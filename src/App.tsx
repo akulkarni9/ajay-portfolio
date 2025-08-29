@@ -78,7 +78,7 @@ const portfolioData: PortfolioData = {
   linkedin: "https://linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
-  headshotUrl: "/Ajay.jpg",
+  headshotUrl: "https://placehold.co/400x400/1e293b/a78bfa?text=Ajay", // Placeholder, replace with your headshot URL
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
@@ -375,7 +375,11 @@ const Header: React.FC<HeaderProps> = ({ activeSection }) => {
                         </div>
                     </div>
                     <div className="-mr-2 flex md:hidden">
-                        <button onClick={() => setIsOpen(!isOpen)} className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none">
+                        <button 
+                            onClick={() => setIsOpen(!isOpen)} 
+                            className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none"
+                            aria-label={isOpen ? "Close main menu" : "Open main menu"}
+                        >
                             {isOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                     </div>
@@ -633,7 +637,7 @@ export default function App() {
                 <Section id="about" title="About Me">
                     <div className="grid md:grid-cols-3 gap-12 items-center">
                         <div className="md:col-span-1">
-                            <img src={portfolioData.headshotUrl} alt="Professional headshot of Ajay Kulkarni" className="rounded-full w-64 h-64 mx-auto md:w-full md:h-auto shadow-lg" />
+                            <img src={portfolioData.headshotUrl} alt="Professional headshot of Ajay Kulkarni" className="rounded-full w-64 h-64 mx-auto md:w-full md:h-auto shadow-lg object-cover" />
                         </div>
                         <div className="md:col-span-2 space-y-4 text-lg text-slate-600 dark:text-slate-300 text-left">
                             <p>{portfolioData.about.p1}</p>
