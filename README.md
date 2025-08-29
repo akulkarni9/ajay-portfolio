@@ -7,7 +7,8 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)  
 [![Vercel Status](https://img.shields.io/github/deployments/akulkarni9/ajay-portfolio/Production?label=vercel&logo=vercel)](https://ajay-portfolio-navy.vercel.app/)  
 ![Forks](https://img.shields.io/github/forks/akulkarni9/ajay-portfolio?style=flat-square)  
-![Stars](https://img.shields.io/github/stars/akulkarni9/ajay-portfolio?style=flat-square)
+![Stars](https://img.shields.io/github/stars/akulkarni9/ajay-portfolio?style=flat-square)  
+![Clones](https://hits.sh/github.com/akulkarni9/ajay-portfolio.svg?style=flat-square)
 
 
 A modern, sleek, and fully responsive personal portfolio website built with **React**, **Vite**, and **Tailwind CSS**.  
