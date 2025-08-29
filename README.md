@@ -6,6 +6,7 @@
 ![Lucide](https://img.shields.io/badge/Icons-LUCIDE-000000?style=for-the-badge&logo=lucide&logoColor=white)  
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)  
 [![Vercel Status](https://img.shields.io/github/deployments/akulkarni9/ajay-portfolio/Production?label=vercel&logo=vercel)](https://ajay-portfolio-navy.vercel.app/)
+![Forks](https://img.shields.io/github/forks/akulkarni9/ajay-portfolio?style=flat-square)
 
 
 A modern, sleek, and fully responsive personal portfolio website built with **React**, **Vite**, and **Tailwind CSS**.  
