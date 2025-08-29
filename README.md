@@ -1,9 +1,7 @@
-Ajay Kulkarni - Personal Portfolio
-A modern, sleek, and fully responsive personal portfolio website built with React, Vite, and Tailwind CSS. Designed to showcase professional experience, projects, and skills with a premium user experience.
+# Ajay Kulkarni - Personal Portfolio  
+A modern, sleek, and fully responsive personal portfolio website built with React, Vite, and Tailwind CSS. Designed to showcase professional experience, projects, and skills with a premium user experience.  
 
-➡️ View Live Demo
-
-About The Project
+## About The Project  
 This project is a single-page application created to serve as a professional online presence for Ajay Kulkarni. It's built from the ground up with a focus on modern design trends, performance, and ease of customization. The goal was to create a template that is not only visually stunning but also incredibly simple for any developer to personalize and deploy.
 
 Key Features
@@ -71,9 +69,7 @@ That's it! All the changes will be reflected on your site instantly.
 Support
 If you find this portfolio template useful and would like to show your appreciation, you can buy me a coffee! It's never expected, but always appreciated.
 
-<a href="https://buymeacoffee.com/akulkarni9" target="_blank">
-<img src="https://www.google.com/search?q=https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" >
-</a>
+<a href="https://www.buymeacoffee.com/akulkarni9"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=akulkarni9&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
 
 License
 This project is distributed under the MIT License. See LICENSE for more information.
