@@ -78,7 +78,7 @@ const portfolioData: PortfolioData = {
   linkedin: "https://linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
-  headshotUrl: "/Ajay.jpg", // Replace with your image
+  headshotUrl: "/Ajay.jpg",
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
@@ -338,7 +338,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => (
             <p className="text-sm text-indigo-500 dark:text-indigo-400 mb-1">{post.date}</p>
             <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{post.title}</h3>
             <p className="text-slate-600 dark:text-slate-300 mb-4">{post.excerpt}</p>
-            <div className="inline-flex items-center text-indigo-500 font-semibold group">
+            <div className="inline-flex items-center text-indigo-500 dark:text-indigo-300 font-semibold group">
                 Read on LinkedIn <ArrowUpRight size={16} className="ml-1 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </div>
         </div>
@@ -417,10 +417,10 @@ const Hero: React.FC = () => {
                         View My Work
                     </a>
                     <div className="flex space-x-6">
-                        <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
+                        <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" aria-label="View Ajay Kulkarni's GitHub profile" className="text-slate-400 hover:text-indigo-500 transition-colors">
                             <Github size={32} />
                         </a>
-                        <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
+                        <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" aria-label="View Ajay Kulkarni's LinkedIn profile" className="text-slate-400 hover:text-indigo-500 transition-colors">
                             <Linkedin size={32} />
                         </a>
                     </div>
@@ -483,10 +483,10 @@ const Contact: React.FC = () => (
                 {portfolioData.email}
             </a>
             <div className="flex justify-center space-x-8 mt-10">
-                <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
+                <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" aria-label="View Ajay Kulkarni's GitHub profile" className="text-slate-400 hover:text-indigo-500 transition-colors">
                     <Github size={32} />
                 </a>
-                <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
+                <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" aria-label="View Ajay Kulkarni's LinkedIn profile" className="text-slate-400 hover:text-indigo-500 transition-colors">
                     <Linkedin size={32} />
                 </a>
             </div>
@@ -520,6 +520,7 @@ const BackToTopButton: React.FC = () => {
     return (
         <button
             onClick={scrollToTop}
+            aria-label="Back to top"
             className={`fixed bottom-8 right-8 bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-300 transform ${isVisible ? 'scale-100' : 'scale-0'}`}
         >
             <ArrowUp size={24} />
