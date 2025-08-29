@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, Users } from 'lucide-react';
+import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp } from 'lucide-react';
 
 // --- TYPE DEFINITIONS ---
 
@@ -71,7 +71,7 @@ const portfolioData: PortfolioData = {
   linkedin: "https://linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
-  headshotUrl: "Ajay.jpg", // Placeholder, replace with your headshot URL
+  headshotUrl: "/Ajay.jpg", // Placeholder, replace with your headshot URL
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
@@ -488,55 +488,6 @@ const BackToTopButton: React.FC = () => {
     );
 };
 
-const VisitorCounter: React.FC = () => {
-    const [count, setCount] = useState<number | null>(null);
-
-    useEffect(() => {
-        // This check ensures the counter logic only runs in a production environment (on Vercel)
-        // It uses Vercel's system environment variable to detect production.
-        const isProduction = window.location.hostname.includes('vercel.app');
-        
-        if (isProduction) {
-            const fetchViews = async () => {
-                try {
-                    const hasVisited = sessionStorage.getItem('portfolioVisited');
-                    const endpoint = '/api/views'; // This relative path works in production on Vercel
-                    let options: RequestInit = { method: 'GET' };
-
-                    if (!hasVisited) {
-                        options.method = 'POST';
-                        sessionStorage.setItem('portfolioVisited', 'true');
-                    }
-
-                    const response = await fetch(endpoint, options);
-                    if (!response.ok) {
-                        console.error(`API request failed with status: ${response.status}`);
-                        return;
-                    }
-                    const data = await response.json();
-                    setCount(data.count);
-                } catch (error) {
-                    console.error("Could not fetch visitor count:", error);
-                }
-            };
-            fetchViews();
-        }
-    }, []);
-
-    // Only render the counter if we are in production and the count has been fetched
-    const isProduction = window.location.hostname.includes('vercel.app');
-    if (!isProduction || count === null) {
-        return null;
-    }
-
-    return (
-        <div className="flex items-center text-sm">
-            <Users size={16} className="mr-2" />
-            <span>{count.toLocaleString()} views</span>
-        </div>
-    );
-};
-
 
 export default function App() {
     const [showResumeViewer, setShowResumeViewer] = useState<boolean>(false);
@@ -716,9 +667,8 @@ export default function App() {
             <BackToTopButton />
 
             <footer className="bg-white dark:bg-slate-900/50 py-6 px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-                <div className="max-w-7xl mx-auto flex justify-between items-center text-slate-500 dark:text-slate-400">
+                <div className="max-w-7xl mx-auto flex justify-center items-center text-slate-500 dark:text-slate-400">
                     <p>&copy; {new Date().getFullYear()} {portfolioData.name}. All Rights Reserved.</p>
-                    <VisitorCounter />
                 </div>
             </footer>
         </div>
