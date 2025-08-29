@@ -66,7 +66,9 @@ Follow these steps to set up the project locally.
    npm run dev
   
 Your site will be available at: http://localhost:5173  
-  
+
+---
+
 ## 🎨 Easy Customization
 This portfolio is designed to be easily personalized.
 
@@ -77,6 +79,8 @@ This portfolio is designed to be easily personalized.
 3. Add Your Resume: Place your resume as a PDF file inside the /public folder and update the resumeUrl in the portfolioData object.
 
 That's it! All the changes will be reflected on your site instantly.  
+
+---
 
 ## ☕ Support Me
 If you find this portfolio template useful and would like to show your appreciation, you can buy me a coffee! It's never expected, but always appreciated.
