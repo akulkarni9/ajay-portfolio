@@ -5,7 +5,7 @@
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)  
 ![Lucide](https://img.shields.io/badge/Icons-LUCIDE-000000?style=for-the-badge&logo=lucide&logoColor=white)  
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)  
-![Vercel](https://vercelbadge.vercel.app/api/ajay-kulkarnis-projects-ba56fda7/ajay-portfolio)
+[![Vercel](https://vercelbadge.vercel.app/api/ajaykulkarni178-4606/ajay-portfolio)](https://vercel.com/ajaykulkarni178-4606/ajay-portfolio)
 
 A modern, sleek, and fully responsive personal portfolio website built with **React**, **Vite**, and **Tailwind CSS**.  
 Designed to showcase professional experience, projects, and skills with a premium user experience.  
