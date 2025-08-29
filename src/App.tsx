@@ -1,10 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, Users } from 'lucide-react';
 
+// --- TYPE DEFINITIONS ---
+
+interface HeroData {
+  greeting: string;
+  line1: string;
+  line2: string;
+}
+
+interface AboutData {
+  p1: string;
+  p2: string;
+  p3: string;
+  p4: string;
+}
+
+interface SkillsData {
+  leadership: string[];
+  aiCloud: string[];
+  fullStack: string[];
+}
+
+interface ExperienceData {
+  role: string;
+  company: string;
+  period: string;
+  description: string[];
+}
+
+interface ProjectData {
+  title: string;
+  description: string;
+  tags: string[];
+  features?: string[];
+  link: string;
+}
+
+interface BlogData {
+  title: string;
+  date: string;
+  excerpt: string;
+  link: string;
+}
+
+interface PortfolioData {
+  name: string;
+  title: string;
+  email: string;
+  linkedin: string;
+  github: string;
+  resumeUrl: string;
+  headshotUrl: string;
+  hero: HeroData;
+  about: AboutData;
+  skills: SkillsData;
+  experience: ExperienceData[];
+  projects: ProjectData[];
+  blog: BlogData[];
+}
+
+
 // --- CUSTOMIZATION SECTION ---
 // Edit the values below to personalize your portfolio
 
-const portfolioData = {
+const portfolioData: PortfolioData = {
   name: "Ajay Kulkarni",
   title: "Engineering Manager - AI/ML & Cloud",
   email: "ajaykulkarni178@gmail.com",
@@ -126,9 +186,51 @@ const portfolioData = {
   ]
 };
 
+// --- COMPONENT PROP TYPES ---
+
+interface SkillPillProps {
+  skill: string;
+  delay: number;
+}
+
+interface ProjectCardProps {
+  project: ProjectData;
+  className?: string;
+}
+
+interface ExperienceCardProps {
+  exp: ExperienceData;
+  index: number;
+}
+
+interface BlogCardProps {
+  post: BlogData;
+  index: number;
+}
+
+interface SectionProps {
+  id: string;
+  title: string;
+  children: React.ReactNode;
+}
+
+interface HeaderProps {
+  activeSection: string;
+}
+
+interface ResumeViewerModalProps {
+    url: string;
+    onClose: () => void;
+}
+
+interface ResumeProps {
+    setShowResumeViewer: (show: boolean) => void;
+}
+
+
 // --- STYLING & COMPONENTS ---
 
-const Logo = () => (
+const Logo: React.FC = () => (
     <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center space-x-3 text-2xl font-bold text-slate-800 dark:text-white group">
         <div className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white w-9 h-9 flex items-center justify-center rounded-lg font-mono shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-12deg]">
             A
@@ -138,7 +240,7 @@ const Logo = () => (
 );
 
 
-const SkillPill = ({ skill, delay }) => (
+const SkillPill: React.FC<SkillPillProps> = ({ skill, delay }) => (
     <span 
         className="inline-block bg-indigo-100 dark:bg-slate-700 text-indigo-800 dark:text-indigo-300 rounded-full px-4 py-2 text-sm font-medium mr-2 mb-2 shadow-sm animate-fade-in-up"
         style={{ animationDelay: `${delay}ms` }}
@@ -147,7 +249,7 @@ const SkillPill = ({ skill, delay }) => (
     </span>
 );
 
-const ProjectCard = ({ project, className = "" }) => (
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = "" }) => (
     <div className={`bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${className}`}>
         <div className="p-6 flex flex-col h-full">
             <div>
@@ -173,7 +275,7 @@ const ProjectCard = ({ project, className = "" }) => (
     </div>
 );
 
-const ExperienceCard = ({ exp, index }) => (
+const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => (
     <div className="flex space-x-6 group">
         <div className="flex flex-col items-center">
             <div className="flex-shrink-0 bg-indigo-500 rounded-full h-8 w-8 flex items-center justify-center z-10 shadow-md">
@@ -191,7 +293,7 @@ const ExperienceCard = ({ exp, index }) => (
     </div>
 );
 
-const BlogCard = ({ post, index }) => (
+const BlogCard: React.FC<BlogCardProps> = ({ post }) => (
     <a href={post.link} target="_blank" rel="noopener noreferrer" className="block bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
         <div className="p-6">
             <p className="text-sm text-indigo-500 dark:text-indigo-400 mb-1">{post.date}</p>
@@ -204,7 +306,7 @@ const BlogCard = ({ post, index }) => (
     </a>
 );
 
-const Section = ({ id, title, children }) => (
+const Section: React.FC<SectionProps> = ({ id, title, children }) => (
     <section id={id} className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-white sm:text-4xl mb-16 text-center">{title}</h2>
@@ -213,8 +315,8 @@ const Section = ({ id, title, children }) => (
     </section>
 );
 
-const Header = ({ activeSection }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const Header: React.FC<HeaderProps> = ({ activeSection }) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const navLinks = ["About", "Skills", "Experience", "Projects", "Blog", "Resume", "Contact"];
 
     return (
@@ -255,7 +357,7 @@ const Header = ({ activeSection }) => {
     );
 };
 
-const Hero = () => {
+const Hero: React.FC = () => {
     return (
         <section id="hero" className="relative min-h-screen flex items-center px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
             <div className="hero-aurora"></div>
@@ -289,7 +391,7 @@ const Hero = () => {
     );
 };
 
-const ResumeViewerModal = ({ url, onClose }) => (
+const ResumeViewerModal: React.FC<ResumeViewerModalProps> = ({ url, onClose }) => (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[101] p-4" onClick={onClose}>
         <div className="bg-white dark:bg-slate-800 rounded-lg w-full max-w-4xl h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center p-4 border-b dark:border-slate-700">
@@ -305,7 +407,7 @@ const ResumeViewerModal = ({ url, onClose }) => (
     </div>
 );
 
-const Resume = ({ setShowResumeViewer }) => (
+const Resume: React.FC<ResumeProps> = ({ setShowResumeViewer }) => (
     <Section id="resume" title="My Resume">
         <div className="text-center">
             <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
@@ -332,7 +434,7 @@ const Resume = ({ setShowResumeViewer }) => (
     </Section>
 );
 
-const Contact = () => (
+const Contact: React.FC = () => (
     <Section id="contact" title="Get In Touch">
         <div className="text-center max-w-2xl mx-auto">
             <p className="text-lg text-slate-600 dark:text-slate-300 mb-8">
@@ -353,8 +455,8 @@ const Contact = () => (
     </Section>
 );
 
-const BackToTopButton = () => {
-    const [isVisible, setIsVisible] = useState(false);
+const BackToTopButton: React.FC = () => {
+    const [isVisible, setIsVisible] = useState<boolean>(false);
 
     const toggleVisibility = () => {
         if (window.pageYOffset > 300) {
@@ -386,8 +488,8 @@ const BackToTopButton = () => {
     );
 };
 
-const VisitorCounter = () => {
-    const [count, setCount] = useState(null);
+const VisitorCounter: React.FC = () => {
+    const [count, setCount] = useState<number | null>(null);
 
     useEffect(() => {
         // This check ensures the counter logic only runs in a production environment (on Vercel)
@@ -398,8 +500,8 @@ const VisitorCounter = () => {
             const fetchViews = async () => {
                 try {
                     const hasVisited = sessionStorage.getItem('portfolioVisited');
-                    const endpoint = '/api/views'; // Relative path works in production
-                    let options = { method: 'GET' };
+                    const endpoint = '/api/views'; // This relative path works in production on Vercel
+                    let options: RequestInit = { method: 'GET' };
 
                     if (!hasVisited) {
                         options.method = 'POST';
@@ -437,9 +539,9 @@ const VisitorCounter = () => {
 
 
 export default function App() {
-    const [showResumeViewer, setShowResumeViewer] = useState(false);
-    const [activeSection, setActiveSection] = useState('');
-    const [animatedSkills, setAnimatedSkills] = useState(false);
+    const [showResumeViewer, setShowResumeViewer] = useState<boolean>(false);
+    const [activeSection, setActiveSection] = useState<string>('');
+    const [animatedSkills, setAnimatedSkills] = useState<boolean>(false);
 
     useEffect(() => {
         const sectionObserver = new IntersectionObserver((entries) => {
