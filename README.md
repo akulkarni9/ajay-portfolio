@@ -73,4 +73,12 @@ This portfolio is designed to be easily personalized.
 
 That's it! All the changes will be reflected on your site instantly.  
 
+# Support
+If you find this portfolio template useful and would like to show your appreciation, you can buy me a coffee! It's never expected, but always appreciated.
+
+<a href="https://www.buymeacoffee.com/akulkarni9"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=akulkarni9&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
+
+# License
+This project is distributed under the MIT License. See `LICENSE` for more information.
+
 ---
