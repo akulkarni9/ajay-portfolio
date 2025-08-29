@@ -3,11 +3,11 @@
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Lucide](https://img.shields.io/badge/Icons-LUCIDE-000000?style=for-the-badge&logo=lucide&logoColor=white)  
+![Lucide](https://img.shields.io/badge/Icons-LUCIDE-000000?style=for-the-badge&logo=lucide&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 [![Vercel Status](https://img.shields.io/github/deployments/akulkarni9/ajay-portfolio/Production?label=vercel&logo=vercel)](https://ajay-portfolio-navy.vercel.app/)
 ![Forks](https://img.shields.io/github/forks/akulkarni9/ajay-portfolio?style=flat-square)
-![Stars](https://img.shields.io/github/stars/akulkarni9/ajay-portfolio?style=flat-square)  
+![Stars](https://img.shields.io/github/stars/akulkarni9/ajay-portfolio?style=flat-square)
 ![Clones](https://hits.sh/github.com/akulkarni9/ajay-portfolio.svg?style=flat-square)
 
 
