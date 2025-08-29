@@ -14,7 +14,7 @@ Designed to showcase professional experience, projects, and skills with a premiu
 ## 🚀 About The Project  
 
 This project is a **single-page application** created to serve as a professional online presence for **Ajay Kulkarni**.  
-It's built from the ground up with a focus on **modern design trends, performance, and ease of customization**.  
+It's built from the ground up with a focus on **modern design trends, performance, and ease of customization**, utilizing the latest technologies like **React 19** and **Tailwind CSS v4**.   
 
 The goal was to create a template that is not only visually stunning but also incredibly simple for any developer to personalize and deploy.
 
