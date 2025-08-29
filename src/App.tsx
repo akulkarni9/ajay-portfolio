@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp } from 'lucide-react';
+import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap } from 'lucide-react';
 
 // --- TYPE DEFINITIONS ---
 
@@ -29,6 +29,12 @@ interface ExperienceData {
   description: string[];
 }
 
+interface EducationData {
+  degree: string;
+  institution: string;
+  period: string;
+}
+
 interface ProjectData {
   title: string;
   description: string;
@@ -56,6 +62,7 @@ interface PortfolioData {
   about: AboutData;
   skills: SkillsData;
   experience: ExperienceData[];
+  education: EducationData[];
   projects: ProjectData[];
   blog: BlogData[];
 }
@@ -71,7 +78,7 @@ const portfolioData: PortfolioData = {
   linkedin: "https://linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
-  headshotUrl: "/Ajay.jpg", // Placeholder, replace with your headshot URL
+  headshotUrl: "https://placehold.co/400x400/1e293b/a78bfa?text=Ajay", // Placeholder, replace with your headshot URL
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
@@ -130,6 +137,18 @@ const portfolioData: PortfolioData = {
         "Engineered fintech platforms, innovated on Brain-Computer Interface (BCI) devices, and built 3D e-commerce solutions.",
         "Contributed to early-stage product adoption and platform efficiency improvements."
       ]
+    }
+  ],
+  education: [
+    {
+      degree: "M.Tech, Software Engineering",
+      institution: "BITS Pilani",
+      period: "2019 – 2021",
+    },
+    {
+      degree: "B.E., Computer Science & Engineering",
+      institution: "SJCE, Mysore",
+      period: "2009 – 2013",
     }
   ],
   projects: [
@@ -201,6 +220,11 @@ interface ProjectCardProps {
 interface ExperienceCardProps {
   exp: ExperienceData;
   index: number;
+}
+
+interface EducationCardProps {
+    edu: EducationData;
+    index: number;
 }
 
 interface BlogCardProps {
@@ -293,6 +317,21 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => (
     </div>
 );
 
+const EducationCard: React.FC<EducationCardProps> = ({ edu }) => (
+    <div className="flex space-x-6 group">
+        <div className="flex flex-col items-center">
+            <div className="flex-shrink-0 bg-indigo-500 rounded-full h-8 w-8 flex items-center justify-center z-10 shadow-md">
+                <GraduationCap className="text-white" size={16} />
+            </div>
+            <div className="flex-grow w-0.5 bg-slate-200 dark:bg-slate-700 group-last:hidden"></div>
+        </div>
+        <div className="pb-12">
+            <h3 className="font-bold text-lg text-slate-800 dark:text-white -mt-1">{edu.degree}</h3>
+            <p className="text-indigo-500 dark:text-indigo-400 text-sm font-medium">{edu.institution} | {edu.period}</p>
+        </div>
+    </div>
+);
+
 const BlogCard: React.FC<BlogCardProps> = ({ post }) => (
     <a href={post.link} target="_blank" rel="noopener noreferrer" className="block bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
         <div className="p-6">
@@ -317,7 +356,7 @@ const Section: React.FC<SectionProps> = ({ id, title, children }) => (
 
 const Header: React.FC<HeaderProps> = ({ activeSection }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const navLinks = ["About", "Skills", "Experience", "Projects", "Blog", "Resume", "Contact"];
+    const navLinks = ["About", "Skills", "Experience", "Education", "Projects", "Blog", "Resume", "Contact"];
 
     return (
         <header className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl fixed top-0 left-0 right-0 z-50 border-b border-slate-200/50 dark:border-slate-800/50">
@@ -639,6 +678,12 @@ export default function App() {
                 <Section id="experience" title="Professional Experience">
                     <div className="max-w-3xl mx-auto flex flex-col">
                         {portfolioData.experience.map((exp, index) => <ExperienceCard key={index} exp={exp} index={index} />)}
+                    </div>
+                </Section>
+
+                <Section id="education" title="Education">
+                    <div className="max-w-3xl mx-auto flex flex-col">
+                        {portfolioData.education.map((edu, index) => <EducationCard key={index} edu={edu} index={index} />)}
                     </div>
                 </Section>
 
