@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp } from 'lucide-react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
+import { Linkedin, Github, Menu, X, Sun, Moon, Briefcase, ArrowUpRight, Download, Eye, ArrowUp } from 'lucide-react';
 
 // --- CUSTOMIZATION SECTION ---
 // Edit the values below to personalize your portfolio
@@ -11,6 +11,7 @@ const portfolioData = {
   linkedin: "https://linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
+  headshotUrl: "/Ajay.jpg", // IMPORTANT: Make sure this image is in your /public folder
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
@@ -22,11 +23,10 @@ const portfolioData = {
     p3: "With over a decade of experience in software development, including 1.5 years in product management, I have delivered innovative solutions across industries. My expertise spans leading cross-functional teams, collaborating with PMOs, and delivering results through Agile methodologies while aligning technical solutions with business objectives.",
     p4: "Living with a hearing disability from birth has shaped my journey in profound ways. It has taught me the power of adaptability, perseverance, and clear communication. I embrace it as a strength that fuels my commitment to fostering inclusive collaboration and breaking down barriers in the tech industry."
   },
-  skills: {
-    "Leadership & Architecture": ["Engineering Leadership", "System Design", "Distributed Systems", "Agile Delivery"],
-    "AI/Cloud Engineering": ["AI/ML", "TensorFlow", "GCP ML", "Agentic AI", "Python", "Node.js", "GCP (Certified)", "AWS", "Azure", "Kubernetes", "Docker", "CI/CD"],
-    "Full-Stack & Mobile": ["React", "Angular", "Flutter", "Kotlin", "Android"]
-  },
+  skills: [
+    "Engineering Leadership", "System Design", "Distributed Systems", "AI/ML",
+    "Agentic AI", "LLMs", "GCP", "AWS", "Azure", "Kubernetes", "React", "Python"
+  ],
   experience: [
     {
       role: "Associate Manager – Software & Platforms",
@@ -62,15 +62,13 @@ const portfolioData = {
       ]
     },
     {
-        role: "Earlier Roles",
-        company: "Enexl, Cheerz Labs, DF3D, VA Tech",
-        period: "Pre-2017",
-        description: [
-          "Enexl Technologies – Engineered BluPay fintech platform, boosting transaction efficiency by 25% and driving early-stage product adoption.",
-          "Cheerz Labs – Innovated on Zen Headset, a Brain–Computer Interface (BCI) device, showcasing next-gen wearable tech.",
-          "DF3D Creations – Built a 3D e-commerce platform, pioneering immersive shopping experiences.",
-          "VA Tech Ventures (Happay) – Contributed to India’s leading fintech expense management platform during internship."
-        ]
+      role: "Earlier Roles",
+      company: "Enexl, Cheerz Labs, DF3D, VA Tech",
+      period: "Pre-2017",
+      description: [
+        "Engineered fintech platforms, innovated on Brain-Computer Interface (BCI) devices, and built 3D e-commerce solutions.",
+        "Contributed to early-stage product adoption and platform efficiency improvements."
+      ]
     }
   ],
   projects: [
@@ -101,16 +99,16 @@ const portfolioData = {
   ],
   blog: [
     {
-        title: "Empathy: The Leadership Skill We Don't Talk About Enough",
-        date: "April 8, 2025",
-        excerpt: "A deep dive into why empathy is a critical, yet often overlooked, trait for effective leadership in the tech industry.",
-        link: "https://www.linkedin.com/pulse/empathy-leadership-skill-we-dont-talk-enough-ajay-kulkarni-umogc/"
+      title: "Empathy: The Leadership Skill We Don't Talk About Enough",
+      date: "April 8, 2025",
+      excerpt: "A deep dive into why empathy is a critical, yet often overlooked, trait for effective leadership in the tech industry.",
+      link: "https://www.linkedin.com/pulse/empathy-leadership-skill-we-dont-talk-enough-ajay-kulkarni-umogc/"
     },
     {
-        title: "Leadership is for Everyone: Lessons from a Deaf Professional",
-        date: "April 1, 2025",
-        excerpt: "Sharing personal insights on how overcoming challenges can forge a unique and powerful leadership style accessible to anyone.",
-        link: "https://www.linkedin.com/pulse/leadership-everyone-lessons-from-deaf-professional-ajay-kulkarni-5ewmc/"
+      title: "Leadership is for Everyone: Lessons from a Deaf Professional",
+      date: "August 15, 2025",
+      excerpt: "Sharing personal insights on how overcoming challenges can forge a unique and powerful leadership style accessible to anyone.",
+      link: "https://www.linkedin.com/pulse/leadership-everyone-lessons-from-deaf-professional-ajay-kulkarni-5ewmc/"
     },
   ]
 };
@@ -118,39 +116,40 @@ const portfolioData = {
 // --- STYLING & COMPONENTS ---
 
 const Logo = () => (
-    <a href="#" className="flex items-center space-x-3 text-2xl font-bold text-slate-800 dark:text-white group">
+    <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center space-x-3 text-2xl font-bold text-slate-800 dark:text-white group">
         <div className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white w-9 h-9 flex items-center justify-center rounded-lg font-mono shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[-12deg]">
             A
         </div>
         <span className="hidden sm:inline-block">{portfolioData.name}</span>
-    </a>
+    </button>
 );
 
+
 const SkillPill = ({ skill }) => (
-  <span className="inline-block bg-indigo-100 dark:bg-slate-700 text-indigo-800 dark:text-indigo-300 rounded-full px-4 py-2 text-sm font-medium mr-2 mb-2 shadow-sm">
-    {skill}
-  </span>
+    <span className="inline-block bg-indigo-100 dark:bg-slate-700 text-indigo-800 dark:text-indigo-300 rounded-full px-4 py-2 text-sm font-medium mr-2 mb-2 shadow-sm">
+        {skill}
+    </span>
 );
 
 const ProjectCard = ({ project, index }) => (
-  <div className="glowing-card bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl fade-in-start" style={{ transitionDelay: `${index * 100}ms` }}>
-    <div className="p-6">
-      <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{project.title}</h3>
-      <p className="text-slate-600 dark:text-slate-300 mb-4 text-base">{project.description}</p>
-      <div className="flex flex-wrap mt-auto">
-        {project.tags.map(tag => <SkillPill key={tag} skill={tag} />)}
-      </div>
-      {project.link !== "#" && (
-        <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-6 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold group">
-          View Project <ArrowUpRight size={16} className="ml-1 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-        </a>
-      )}
+    <div className="bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+        <div className="p-6">
+            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{project.title}</h3>
+            <p className="text-slate-600 dark:text-slate-300 mb-4 text-base">{project.description}</p>
+            <div className="flex flex-wrap mt-auto">
+                {project.tags.map(tag => <SkillPill key={tag} skill={tag} />)}
+            </div>
+            {project.link !== "#" && (
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-6 text-indigo-500 hover:text-indigo-600 dark:text-indigo-400 dark:hover:text-indigo-300 font-semibold group">
+                    View Project <ArrowUpRight size={16} className="ml-1 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </a>
+            )}
+        </div>
     </div>
-  </div>
 );
 
 const ExperienceCard = ({ exp, index }) => (
-    <div className="flex space-x-6 group fade-in-start" style={{ transitionDelay: `${index * 100}ms` }}>
+    <div className="flex space-x-6 group">
         <div className="flex flex-col items-center">
             <div className="flex-shrink-0 bg-indigo-500 rounded-full h-8 w-8 flex items-center justify-center z-10 shadow-md">
                 <Briefcase className="text-white" size={16} />
@@ -168,7 +167,7 @@ const ExperienceCard = ({ exp, index }) => (
 );
 
 const BlogCard = ({ post, index }) => (
-    <a href={post.link} target="_blank" rel="noopener noreferrer" className="glowing-card block bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl fade-in-start" style={{ transitionDelay: `${index * 100}ms` }}>
+    <a href={post.link} target="_blank" rel="noopener noreferrer" className="block bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
         <div className="p-6">
             <p className="text-sm text-indigo-500 dark:text-indigo-400 mb-1">{post.date}</p>
             <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{post.title}</h3>
@@ -181,54 +180,54 @@ const BlogCard = ({ post, index }) => (
 );
 
 const Section = ({ id, title, children }) => (
-  <section id={id} className="py-24 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-5xl mx-auto">
-      <h2 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-white sm:text-4xl mb-16 text-center">{title}</h2>
-      {children}
-    </div>
-  </section>
+    <section id={id} className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-white sm:text-4xl mb-16 text-center">{title}</h2>
+            {children}
+        </div>
+    </section>
 );
 
 const Header = ({ activeSection }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const navLinks = ["About", "Skills", "Experience", "Projects", "Blog", "Resume", "Contact"];
+    const [isOpen, setIsOpen] = useState(false);
+    const navLinks = ["About", "Skills", "Experience", "Projects", "Blog", "Resume", "Contact"];
 
-  return (
-    <header className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl fixed top-0 left-0 right-0 z-50 border-b border-slate-200/50 dark:border-slate-800/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0">
-            <Logo />
-          </div>
-          <div className="hidden md:flex items-center">
-            <div className="ml-10 flex items-baseline space-x-2">
-              {navLinks.map(link => (
-                <a key={link} href={`#${link.toLowerCase()}`} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeSection === link.toLowerCase() ? 'text-indigo-500 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-300 hover:text-indigo-500 dark:hover:text-indigo-400'}`}>
-                  {link}
-                </a>
-              ))}
+    return (
+        <header className="bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl fixed top-0 left-0 right-0 z-50 border-b border-slate-200/50 dark:border-slate-800/50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-16">
+                    <div className="flex-shrink-0">
+                        <Logo />
+                    </div>
+                    <div className="hidden md:flex items-center">
+                        <div className="ml-10 flex items-baseline space-x-2">
+                            {navLinks.map(link => (
+                                <a key={link} href={`#${link.toLowerCase()}`} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeSection === link.toLowerCase() ? 'text-indigo-500 dark:text-indigo-400' : 'text-slate-500 dark:text-slate-300 hover:text-indigo-500 dark:hover:text-indigo-400'}`}>
+                                    {link}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="-mr-2 flex md:hidden">
+                        <button onClick={() => setIsOpen(!isOpen)} className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none">
+                            {isOpen ? <X size={24} /> : <Menu size={24} />}
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div className="-mr-2 flex md:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none">
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </div>
-      {isOpen && (
-        <div className="md:hidden bg-white/95 dark:bg-slate-950/95">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navLinks.map(link => (
-              <a key={link} href={`#${link.toLowerCase()}`} onClick={() => setIsOpen(false)} className="text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                {link}
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
-    </header>
-  );
+            {isOpen && (
+                <div className="md:hidden bg-white/95 dark:bg-slate-950/95">
+                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        {navLinks.map(link => (
+                            <a key={link} href={`#${link.toLowerCase()}`} onClick={() => setIsOpen(false)} className="text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                                {link}
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </header>
+    );
 };
 
 const Hero = () => {
@@ -288,16 +287,16 @@ const Resume = ({ setShowResumeViewer }) => (
                 For a more detailed look at my work history, technical skills, and certifications, you can view or download my full resume.
             </p>
             <div className="flex justify-center items-center space-x-4">
-                <button 
+                <button
                     onClick={() => setShowResumeViewer(true)}
                     className="inline-flex items-center bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white font-bold py-3 px-6 rounded-full hover:bg-slate-100 dark:hover:bg-slate-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                     <Eye size={20} className="mr-2" />
                     View Resume
                 </button>
-                <a 
-                    href={portfolioData.resumeUrl} 
-                    download 
+                <a
+                    href={portfolioData.resumeUrl}
+                    download
                     className="inline-flex items-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-full hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-indigo-500/50"
                 >
                     <Download size={20} className="mr-2" />
@@ -309,24 +308,24 @@ const Resume = ({ setShowResumeViewer }) => (
 );
 
 const Contact = () => (
-  <Section id="contact" title="Get In Touch">
-    <div className="text-center max-w-2xl mx-auto">
-      <p className="text-lg text-slate-600 dark:text-slate-300 mb-8">
-        I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.
-      </p>
-      <a href={`mailto:${portfolioData.email}`} className="text-2xl font-mono text-indigo-500 hover:text-indigo-400 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">
-        {portfolioData.email}
-      </a>
-      <div className="flex justify-center space-x-8 mt-10">
-        <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
-          <Github size={32} />
-        </a>
-        <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
-          <Linkedin size={32} />
-        </a>
-      </div>
-    </div>
-  </Section>
+    <Section id="contact" title="Get In Touch">
+        <div className="text-center max-w-2xl mx-auto">
+            <p className="text-lg text-slate-600 dark:text-slate-300 mb-8">
+                I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.
+            </p>
+            <a href={`mailto:${portfolioData.email}`} className="text-2xl font-mono text-indigo-500 hover:text-indigo-400 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">
+                {portfolioData.email}
+            </a>
+            <div className="flex justify-center space-x-8 mt-10">
+                <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
+                    <Github size={32} />
+                </a>
+                <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors">
+                    <Linkedin size={32} />
+                </a>
+            </div>
+        </div>
+    </Section>
 );
 
 const BackToTopButton = () => {
@@ -363,37 +362,24 @@ const BackToTopButton = () => {
 };
 
 export default function App() {
-  const [showResumeViewer, setShowResumeViewer] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+    const [showResumeViewer, setShowResumeViewer] = useState(false);
+    const [activeSection, setActiveSection] = useState('');
 
-  // Add intersection observer for fade-in animations and active nav link
-  useEffect(() => {
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                setActiveSection(entry.target.id);
-            }
+    useEffect(() => {
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        }, { rootMargin: "-50% 0px -50% 0px" });
+
+        document.querySelectorAll('section').forEach(section => {
+            sectionObserver.observe(section);
         });
-    }, { rootMargin: "-50% 0px -50% 0px" });
 
-    const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-visible');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('section').forEach(section => {
-        sectionObserver.observe(section);
-    });
-
-    document.querySelectorAll('.fade-in-start').forEach(el => {
-        fadeObserver.observe(el);
-    });
-    
-    const styleTag = document.createElement('style');
-    styleTag.innerHTML = `
+        const styleTag = document.createElement('style');
+        styleTag.innerHTML = `
       html {
         scroll-behavior: smooth;
         scroll-padding-top: 5rem; /* Adjust this value to match your header height */
@@ -441,75 +427,91 @@ export default function App() {
           100% { transform: translate(-50%, -50%) rotate(360deg) scale(0.8); }
       }
     `;
-    document.head.appendChild(styleTag);
+        document.head.appendChild(styleTag);
 
-    return () => {
-        sectionObserver.disconnect();
-        fadeObserver.disconnect();
-        if (document.head.contains(styleTag)) {
-            document.head.removeChild(styleTag);
+        return () => {
+            sectionObserver.disconnect();
+            if (document.head.contains(styleTag)) {
+                document.head.removeChild(styleTag);
+            }
         }
-    }
-  }, []);
+    }, []);
 
-  return (
-    <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans leading-relaxed transition-colors duration-300">
-      <Header activeSection={activeSection} />
-      <main>
-        <Hero />
-        
-        <Section id="about" title="About Me">
-          <div className="max-w-3xl mx-auto space-y-6 text-lg text-slate-600 dark:text-slate-300 text-left fade-in-start">
-            <p>{portfolioData.about.p1}</p>
-            <p>{portfolioData.about.p2}</p>
-            <p>{portfolioData.about.p3}</p>
-            <p>{portfolioData.about.p4}</p>
-          </div>
-        </Section>
+    return (
+        <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans leading-relaxed transition-colors duration-300">
+            <Header activeSection={activeSection} />
+            <main>
+                <Hero />
 
-        <Section id="skills" title="Skills & Technologies">
-          <div className="max-w-4xl mx-auto text-center fade-in-start">
-            {Object.entries(portfolioData.skills).map(([category, skills]) => (
-              <div key={category} className="mb-8">
-                <h3 className="text-xl font-semibold text-slate-700 dark:text-slate-300 mb-4">{category}</h3>
-                {skills.map(skill => <SkillPill key={skill} skill={skill} />)}
-              </div>
-            ))}
-          </div>
-        </Section>
+                <Section id="about" title="About Me">
+                    <div className="grid md:grid-cols-3 gap-12 items-center">
+                        <div className="md:col-span-1">
+                            <img src={portfolioData.headshotUrl} alt="Ajay Kulkarni" className="rounded-full w-64 h-64 mx-auto md:w-full md:h-auto shadow-lg" />
+                        </div>
+                        <div className="md:col-span-2 space-y-4 text-lg text-slate-600 dark:text-slate-300 text-left">
+                            <p>{portfolioData.about.p1}</p>
+                            <p>{portfolioData.about.p2}</p>
+                            <p>{portfolioData.about.p3}</p>
+                            <p>{portfolioData.about.p4}</p>
+                        </div>
+                    </div>
+                </Section>
 
-        <Section id="experience" title="Professional Experience">
-            <div className="max-w-3xl mx-auto flex flex-col">
-                {portfolioData.experience.map((exp, index) => <ExperienceCard key={index} exp={exp} index={index} />)}
-            </div>
-        </Section>
+                <Section id="skills" title="Skills & Technologies">
+                    <div className="grid md:grid-cols-3 gap-8">
+                        <div>
+                            <h3 className="text-xl font-bold text-center mb-4">Leadership & Architecture</h3>
+                            <div className="flex flex-wrap justify-center">
+                                {["Engineering Leadership", "System Design", "Distributed Systems", "Agile Delivery"].map(skill => <SkillPill key={skill} skill={skill} />)}
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold text-center mb-4">AI/Cloud Engineering</h3>
+                            <div className="flex flex-wrap justify-center">
+                                {["AI/ML", "Agentic AI", "LLMs", "GCP", "AWS", "Azure", "Kubernetes", "Python"].map(skill => <SkillPill key={skill} skill={skill} />)}
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold text-center mb-4">Full-Stack & Mobile</h3>
+                            <div className="flex flex-wrap justify-center">
+                                {["React", "Angular", "Flutter", "Kotlin", "Android"].map(skill => <SkillPill key={skill} skill={skill} />)}
+                            </div>
+                        </div>
+                    </div>
+                </Section>
 
-        <Section id="projects" title="Featured Projects">
-          <div className="grid md:grid-cols-2 gap-8">
-            {portfolioData.projects.map((project, index) => <ProjectCard key={project.title} project={project} index={index} />)}
-          </div>
-        </Section>
+                <Section id="experience" title="Professional Experience">
+                    <div className="max-w-3xl mx-auto flex flex-col">
+                        {portfolioData.experience.map((exp, index) => <ExperienceCard key={index} exp={exp} index={index} />)}
+                    </div>
+                </Section>
 
-        <Section id="blog" title="From the Blog">
-            <div className="grid md:grid-cols-2 gap-8">
-                {portfolioData.blog.map((post, index) => <BlogCard key={post.title} post={post} index={index} />)}
-            </div>
-        </Section>
+                <Section id="projects" title="Featured Projects">
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {portfolioData.projects.map((project, index) => <ProjectCard key={project.title} project={project} index={index} />)}
+                    </div>
+                </Section>
 
-        <Resume setShowResumeViewer={setShowResumeViewer} />
+                <Section id="blog" title="From the Blog">
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {portfolioData.blog.map((post, index) => <BlogCard key={post.title} post={post} index={index} />)}
+                    </div>
+                </Section>
 
-        <Contact />
-      </main>
+                <Resume setShowResumeViewer={setShowResumeViewer} />
 
-      {showResumeViewer && <ResumeViewerModal url={portfolioData.resumeUrl} onClose={() => setShowResumeViewer(false)} />}
-      
-      <BackToTopButton />
+                <Contact />
+            </main>
 
-      <footer className="bg-white dark:bg-slate-900/50 py-6 px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto text-center text-slate-500 dark:text-slate-400">
-          <p>&copy; {new Date().getFullYear()} {portfolioData.name}. All Rights Reserved.</p>
+            {showResumeViewer && <ResumeViewerModal url={portfolioData.resumeUrl} onClose={() => setShowResumeViewer(false)} />}
+
+            <BackToTopButton />
+
+            <footer className="bg-white dark:bg-slate-900/50 py-6 px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
+                <div className="max-w-7xl mx-auto text-center text-slate-500 dark:text-slate-400">
+                    <p>&copy; {new Date().getFullYear()} {portfolioData.name}. All Rights Reserved.</p>
+                </div>
+            </footer>
         </div>
-      </footer>
-    </div>
-  );
+    );
 }
