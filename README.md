@@ -59,3 +59,18 @@ Follow these steps to set up the project locally.
 3. **Run the development server:**  
    ```bash
    npm run dev
+  
+Your site will be available at: http://localhost:5173  
+  
+## Easy Customization
+This portfolio is designed to be easily personalized.
+
+1. Open src/App.jsx: All the content for the portfolio is located in the portfolioData object at the top of this file.
+
+2. Edit the Content: Simply change the values for the name, title, experience, projects, and other fields to match your own information.
+
+3. Add Your Resume: Place your resume as a PDF file inside the /public folder and update the resumeUrl in the portfolioData object.
+
+That's it! All the changes will be reflected on your site instantly.  
+
+---
