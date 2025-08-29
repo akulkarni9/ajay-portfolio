@@ -64,7 +64,7 @@ Follow these steps to set up the project locally.
   
 Your site will be available at: http://localhost:5173  
   
-## Easy Customization
+## 🎨 Easy Customization
 This portfolio is designed to be easily personalized.
 
 1. Open src/App.jsx: All the content for the portfolio is located in the portfolioData object at the top of this file.
@@ -75,12 +75,12 @@ This portfolio is designed to be easily personalized.
 
 That's it! All the changes will be reflected on your site instantly.  
 
-# ☕ Support Me
+## ☕ Support Me
 If you find this portfolio template useful and would like to show your appreciation, you can buy me a coffee! It's never expected, but always appreciated.
 
 [![Buy Me A Coffee](https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png)](https://www.buymeacoffee.com/akulkarni9)
 
-# License
+## ⚖️ License
 This project is distributed under the MIT License. See `LICENSE` for more information.
 
 ---
