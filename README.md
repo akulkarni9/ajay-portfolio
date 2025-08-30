@@ -18,6 +18,16 @@ Designed to showcase professional experience, projects, and skills with a premiu
 **[View Live Demo](https://ajay-portfolio-navy.vercel.app/)**
 
 ---
+  
+## Preview  
+![Portfolio Screenshot](./public/screenshot.png)
+
+---
+
+## Lighthouse Report. 
+![Lighthouse Report Screenshot](./public/LighthouseReport.png)
+
+---
 
 ## 🚀 About The Project  
 
