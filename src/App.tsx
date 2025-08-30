@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap } from 'lucide-react';
+import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap, Sun, Moon } from 'lucide-react';
 
 // --- TYPE DEFINITIONS ---
 
@@ -242,6 +242,8 @@ interface SectionProps {
 
 interface HeaderProps {
   activeSection: string;
+  theme: string;
+  setTheme: (theme: string) => void;
 }
 
 interface ResumeViewerModalProps {
@@ -356,7 +358,21 @@ const Section: React.FC<SectionProps> = ({ id, title, children }) => (
     </section>
 );
 
-const Header: React.FC<HeaderProps> = ({ activeSection }) => {
+const ThemeToggle: React.FC<{ theme: string; setTheme: (theme: string) => void }> = ({ theme, setTheme }) => {
+    const toggleTheme = () => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+    };
+
+    return (
+        <button onClick={toggleTheme} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+        </button>
+    );
+};
+
+
+const Header: React.FC<HeaderProps> = ({ activeSection, theme, setTheme }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const navLinks = ["About", "Skills", "Experience", "Education", "Projects", "Blog", "Resume", "Contact"];
 
@@ -375,11 +391,15 @@ const Header: React.FC<HeaderProps> = ({ activeSection }) => {
                                 </a>
                             ))}
                         </div>
+                        <div className="ml-4">
+                            <ThemeToggle theme={theme} setTheme={setTheme} />
+                        </div>
                     </div>
                     <div className="-mr-2 flex md:hidden">
+                         <ThemeToggle theme={theme} setTheme={setTheme} />
                         <button 
                             onClick={() => setIsOpen(!isOpen)} 
-                            className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none"
+                            className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none ml-2"
                             aria-label={isOpen ? "Close main menu" : "Open main menu"}
                         >
                             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -539,6 +559,26 @@ export default function App() {
     const [showResumeViewer, setShowResumeViewer] = useState<boolean>(false);
     const [activeSection, setActiveSection] = useState<string>('');
     const [animatedSkills, setAnimatedSkills] = useState<boolean>(false);
+    const [theme, setTheme] = useState(() => {
+        if (typeof window !== 'undefined' && window.localStorage) {
+            const storedPrefs = window.localStorage.getItem('theme');
+            if (storedPrefs) {
+                return storedPrefs;
+            }
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        return 'dark'; // Default theme
+    });
+
+    useEffect(() => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        window.localStorage.setItem('theme', theme);
+    }, [theme]);
+
 
     useEffect(() => {
         const sectionObserver = new IntersectionObserver((entries) => {
@@ -640,7 +680,7 @@ export default function App() {
 
     return (
         <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans leading-relaxed transition-colors duration-300">
-            <Header activeSection={activeSection} />
+            <Header activeSection={activeSection} theme={theme} setTheme={setTheme} />
             <main>
                 <Hero />
 
