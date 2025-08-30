@@ -75,10 +75,10 @@ const portfolioData: PortfolioData = {
   name: "Ajay Kulkarni",
   title: "Engineering Manager - AI/ML & Cloud",
   email: "ajaykulkarni178@gmail.com",
-  linkedin: "https://linkedin.com/in/akulkarni178",
+  linkedin: "https://linkedin.com/in/ajaykulkarni1",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
-  headshotUrl: "/Ajay.jpg",
+  headshotUrl: "/Ajay.jpg", // A placeholder, you can replace this with a path to your image in the /public folder
   hero: {
     greeting: "Hi, I'm Ajay.",
     line1: "I build and lead teams that create intelligent, scalable systems.",
@@ -597,24 +597,32 @@ export default function App() {
       .hero-aurora::before, .hero-aurora::after {
         content: '';
         position: absolute;
-        width: 1000px;
-        height: 1000px;
-        background-image: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0) 60%);
+        width: 800px;
+        height: 800px;
         border-radius: 50%;
-        animation: aurora-animation 20s infinite linear;
-        top: 50%;
-        left: 50%;
+        opacity: 0.4;
+        mix-blend-mode: screen;
+        filter: blur(100px);
+        animation: aurora-morph 30s infinite ease-in-out;
+        will-change: transform;
+      }
+      .hero-aurora::before {
+         background: radial-gradient(circle at center, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%);
+         top: 10%;
+         left: 10%;
       }
       .hero-aurora::after {
-        background-image: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0) 60%);
-        animation-delay: 10s;
+         background: radial-gradient(circle at center, rgba(168, 85, 247, 0.4) 0%, rgba(168, 85, 247, 0) 70%);
+         bottom: 10%;
+         right: 10%;
+         animation-delay: -15s;
       }
-      @keyframes aurora-animation {
-          0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.8); }
-          25% { transform: translate(-20%, -80%) rotate(90deg) scale(1.2); }
-          50% { transform: translate(20%, -20%) rotate(180deg) scale(0.9); }
-          75% { transform: translate(-80%, 20%) rotate(270deg) scale(1.1); }
-          100% { transform: translate(-50%, -50%) rotate(360deg) scale(0.8); }
+      @keyframes aurora-morph {
+          0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+          25%  { transform: translate(100px, 50px) rotate(45deg) scale(1.2); }
+          50%  { transform: translate(-50px, -100px) rotate(90deg) scale(0.9); }
+          75%  { transform: translate(50px, -50px) rotate(135deg) scale(1.1); }
+          100% { transform: translate(0, 0) rotate(180deg) scale(1); }
       }
     `;
         document.head.appendChild(styleTag);
