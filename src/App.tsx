@@ -134,8 +134,10 @@ const portfolioData: PortfolioData = {
       company: "Enexl, Cheerz Labs, DF3D, VA Tech",
       period: "Pre-2017",
       description: [
-        "Engineered fintech platforms, innovated on Brain-Computer Interface (BCI) devices, and built 3D e-commerce solutions.",
-        "Contributed to early-stage product adoption and platform efficiency improvements."
+        "Enexl Technologies – Engineered BluPay fintech platform, boosting transaction efficiency by 25% and driving early-stage product adoption.",
+        "Cheerz Labs – Innovated on Zen Headset, a Brain–Computer Interface (BCI) device, showcasing next-gen wearable tech.",
+        "DF3D Creations – Built a 3D e-commerce platform, pioneering immersive shopping experiences.",
+        "VA Tech Ventures (Happay) – Contributed to India’s leading fintech expense management platform during internship."
       ]
     }
   ],
