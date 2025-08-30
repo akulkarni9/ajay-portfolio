@@ -20,7 +20,7 @@ Designed to showcase professional experience, projects, and skills with a premiu
 ---
   
 ## Preview  
-![Portfolio Screenshot](./public/screenshot.png)
+![Portfolio Screenshot](./public/Screenshot.png)
 
 ---
 
