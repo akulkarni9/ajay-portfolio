@@ -552,7 +552,7 @@ export default function App() {
     useEffect(() => {
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
+                if (entry.isInteracting) {
                     setActiveSection(entry.target.id);
                 }
             });
@@ -606,33 +606,34 @@ export default function App() {
       .hero-aurora::before, .hero-aurora::after {
         content: '';
         position: absolute;
-        width: 800px;
-        height: 800px;
+        width: 1200px;
+        height: 1200px;
         border-radius: 50%;
-        opacity: 0.4;
-        mix-blend-mode: screen;
+        opacity: 0.7;
+        mix-blend-mode: color-dodge;
         filter: blur(100px);
-        animation: aurora-morph-improved 25s infinite ease-in-out;
+        animation: aurora-final 25s infinite linear;
         will-change: transform, opacity;
       }
       .hero-aurora::before {
-         background: radial-gradient(circle at center, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%);
-         top: 10%;
-         left: 10%;
+         background: radial-gradient(circle at center, rgba(56, 189, 248, 0.7) 0%, rgba(56, 189, 248, 0) 60%);
+         top: 50%;
+         left: 50%;
+         transform-origin: center;
       }
       .hero-aurora::after {
-         background: radial-gradient(circle at center, rgba(168, 85, 247, 0.4) 0%, rgba(168, 85, 247, 0) 70%);
-         bottom: 10%;
-         right: 10%;
+         background: radial-gradient(circle at center, rgba(217, 70, 239, 0.7) 0%, rgba(217, 70, 239, 0) 60%);
+         top: 50%;
+         left: 50%;
+         transform-origin: center;
          animation-delay: -12.5s;
       }
-      @keyframes aurora-morph-improved {
-          0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }
-          20%  { transform: translate(150px, 100px) scale(1.1); opacity: 0.3; }
-          40%  { transform: translate(-100px, 50px) scale(0.9); opacity: 0.5; }
-          60%  { transform: translate(50px, -150px) scale(1.2); opacity: 0.2; }
-          80%  { transform: translate(-150px, -50px) scale(1); opacity: 0.4; }
-          100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+      @keyframes aurora-final {
+        0% { transform: translate(-50%, -50%) rotate(0deg) scale(1.5); opacity: 0.7; }
+        25% { transform: translate(-20%, -90%) rotate(120deg) scale(0.7); opacity: 0.5; }
+        50% { transform: translate(-80%, -10%) rotate(240deg) scale(1.8); opacity: 0.8; }
+        75% { transform: translate(-10%, -80%) rotate(360deg) scale(0.9); opacity: 0.6; }
+        100% { transform: translate(-50%, -50%) rotate(480deg) scale(1.5); opacity: 0.7; }
       }
     `;
         document.head.appendChild(styleTag);
