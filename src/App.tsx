@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap, Sun, Moon } from 'lucide-react';
+import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap } from 'lucide-react';
 
 // --- TYPE DEFINITIONS ---
 
@@ -242,8 +242,6 @@ interface SectionProps {
 
 interface HeaderProps {
   activeSection: string;
-  theme: string;
-  setTheme: (theme: string) => void;
 }
 
 interface ResumeViewerModalProps {
@@ -358,21 +356,8 @@ const Section: React.FC<SectionProps> = ({ id, title, children }) => (
     </section>
 );
 
-const ThemeToggle: React.FC<{ theme: string; setTheme: (theme: string) => void }> = ({ theme, setTheme }) => {
-    const toggleTheme = () => {
-        const newTheme = theme === 'light' ? 'dark' : 'light';
-        setTheme(newTheme);
-    };
 
-    return (
-        <button onClick={toggleTheme} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-        </button>
-    );
-};
-
-
-const Header: React.FC<HeaderProps> = ({ activeSection, theme, setTheme }) => {
+const Header: React.FC<HeaderProps> = ({ activeSection }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const navLinks = ["About", "Skills", "Experience", "Education", "Projects", "Blog", "Resume", "Contact"];
 
@@ -391,15 +376,11 @@ const Header: React.FC<HeaderProps> = ({ activeSection, theme, setTheme }) => {
                                 </a>
                             ))}
                         </div>
-                        <div className="ml-4">
-                            <ThemeToggle theme={theme} setTheme={setTheme} />
-                        </div>
                     </div>
                     <div className="-mr-2 flex md:hidden">
-                         <ThemeToggle theme={theme} setTheme={setTheme} />
                         <button 
                             onClick={() => setIsOpen(!isOpen)} 
-                            className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none ml-2"
+                            className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none"
                             aria-label={isOpen ? "Close main menu" : "Open main menu"}
                         >
                             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -559,25 +540,13 @@ export default function App() {
     const [showResumeViewer, setShowResumeViewer] = useState<boolean>(false);
     const [activeSection, setActiveSection] = useState<string>('');
     const [animatedSkills, setAnimatedSkills] = useState<boolean>(false);
-    const [theme, setTheme] = useState(() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            const storedPrefs = window.localStorage.getItem('theme');
-            if (storedPrefs) {
-                return storedPrefs;
-            }
-            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        }
-        return 'dark'; // Default theme
-    });
+    
+    // Theme logic removed
 
     useEffect(() => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        window.localStorage.setItem('theme', theme);
-    }, [theme]);
+        // Dark mode is now handled by the browser's default preference via Tailwind's 'media' strategy
+        // Or can be manually set on the html tag if needed, but we removed the toggle.
+    }, []);
 
 
     useEffect(() => {
@@ -643,8 +612,8 @@ export default function App() {
         opacity: 0.4;
         mix-blend-mode: screen;
         filter: blur(100px);
-        animation: aurora-morph 30s infinite ease-in-out;
-        will-change: transform;
+        animation: aurora-morph-improved 25s infinite ease-in-out;
+        will-change: transform, opacity;
       }
       .hero-aurora::before {
          background: radial-gradient(circle at center, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%);
@@ -655,14 +624,15 @@ export default function App() {
          background: radial-gradient(circle at center, rgba(168, 85, 247, 0.4) 0%, rgba(168, 85, 247, 0) 70%);
          bottom: 10%;
          right: 10%;
-         animation-delay: -15s;
+         animation-delay: -12.5s;
       }
-      @keyframes aurora-morph {
-          0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
-          25%  { transform: translate(100px, 50px) rotate(45deg) scale(1.2); }
-          50%  { transform: translate(-50px, -100px) rotate(90deg) scale(0.9); }
-          75%  { transform: translate(50px, -50px) rotate(135deg) scale(1.1); }
-          100% { transform: translate(0, 0) rotate(180deg) scale(1); }
+      @keyframes aurora-morph-improved {
+          0%   { transform: translate(0, 0) scale(1); opacity: 0.4; }
+          20%  { transform: translate(150px, 100px) scale(1.1); opacity: 0.3; }
+          40%  { transform: translate(-100px, 50px) scale(0.9); opacity: 0.5; }
+          60%  { transform: translate(50px, -150px) scale(1.2); opacity: 0.2; }
+          80%  { transform: translate(-150px, -50px) scale(1); opacity: 0.4; }
+          100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
       }
     `;
         document.head.appendChild(styleTag);
@@ -680,7 +650,7 @@ export default function App() {
 
     return (
         <div className="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans leading-relaxed transition-colors duration-300">
-            <Header activeSection={activeSection} theme={theme} setTheme={setTheme} />
+            <Header activeSection={activeSection} />
             <main>
                 <Hero />
 
