@@ -505,7 +505,7 @@ const BackToTopButton: React.FC = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
 
     const toggleVisibility = () => {
-        if (window.pageYOffset > 300) {
+        if (window.scrollY > 300) {
             setIsVisible(true);
         } else {
             setIsVisible(false);
@@ -540,19 +540,11 @@ export default function App() {
     const [showResumeViewer, setShowResumeViewer] = useState<boolean>(false);
     const [activeSection, setActiveSection] = useState<string>('');
     const [animatedSkills, setAnimatedSkills] = useState<boolean>(false);
-    
-    // Theme logic removed
-
-    useEffect(() => {
-        // Dark mode is now handled by the browser's default preference via Tailwind's 'media' strategy
-        // Or can be manually set on the html tag if needed, but we removed the toggle.
-    }, []);
-
 
     useEffect(() => {
         const sectionObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isInteracting) {
+                if (entry.isIntersecting) {
                     setActiveSection(entry.target.id);
                 }
             });
@@ -560,91 +552,25 @@ export default function App() {
 
         const skillsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if(entry.isIntersecting) {
+                if (entry.isIntersecting) {
                     setAnimatedSkills(true);
                 }
             });
         }, { threshold: 0.2 });
 
-
         document.querySelectorAll('section').forEach(section => {
             sectionObserver.observe(section);
         });
-        
+
         const skillsSection = document.getElementById('skills');
         if (skillsSection) {
             skillsObserver.observe(skillsSection);
         }
 
-
-        const styleTag = document.createElement('style');
-        styleTag.innerHTML = `
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: 5rem; /* Adjust this value to match your header height */
-      }
-      .animate-fade-in-up {
-        animation: fade-in-up 0.8s ease-out forwards;
-        opacity: 0;
-      }
-      @keyframes fade-in-up {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .hero-aurora {
-        position: absolute;
-        inset: 0;
-        overflow: hidden;
-        z-index: 0;
-      }
-      .hero-aurora::before, .hero-aurora::after {
-        content: '';
-        position: absolute;
-        width: 1200px;
-        height: 1200px;
-        border-radius: 50%;
-        opacity: 0.7;
-        mix-blend-mode: color-dodge;
-        filter: blur(100px);
-        animation: aurora-final 25s infinite linear;
-        will-change: transform, opacity;
-      }
-      .hero-aurora::before {
-         background: radial-gradient(circle at center, rgba(56, 189, 248, 0.7) 0%, rgba(56, 189, 248, 0) 60%);
-         top: 50%;
-         left: 50%;
-         transform-origin: center;
-      }
-      .hero-aurora::after {
-         background: radial-gradient(circle at center, rgba(217, 70, 239, 0.7) 0%, rgba(217, 70, 239, 0) 60%);
-         top: 50%;
-         left: 50%;
-         transform-origin: center;
-         animation-delay: -12.5s;
-      }
-      @keyframes aurora-final {
-        0% { transform: translate(-50%, -50%) rotate(0deg) scale(1.5); opacity: 0.7; }
-        25% { transform: translate(-20%, -90%) rotate(120deg) scale(0.7); opacity: 0.5; }
-        50% { transform: translate(-80%, -10%) rotate(240deg) scale(1.8); opacity: 0.8; }
-        75% { transform: translate(-10%, -80%) rotate(360deg) scale(0.9); opacity: 0.6; }
-        100% { transform: translate(-50%, -50%) rotate(480deg) scale(1.5); opacity: 0.7; }
-      }
-    `;
-        document.head.appendChild(styleTag);
-
         return () => {
             sectionObserver.disconnect();
             skillsObserver.disconnect();
-            if (document.head.contains(styleTag)) {
-                document.head.removeChild(styleTag);
-            }
-        }
+        };
     }, []);
 
     let skillDelay = 0;
@@ -715,10 +641,12 @@ export default function App() {
 
                 <Section id="projects" title="Featured Projects">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <ProjectCard project={portfolioData.projects[0]} className="md:col-span-2" />
-                        <ProjectCard project={portfolioData.projects[1]} className="md:col-span-1" />
-                        <ProjectCard project={portfolioData.projects[2]} className="md:col-span-1" />
-                        <ProjectCard project={portfolioData.projects[3]} className="md:col-span-2" />
+                        {portfolioData.projects.map((project, index) => {
+                            const pairIsEven = Math.floor(index / 2) % 2 === 0;
+                            const isFirst = index % 2 === 0;
+                            const isWide = pairIsEven ? isFirst : !isFirst;
+                            return <ProjectCard key={project.title} project={project} className={isWide ? "md:col-span-2" : "md:col-span-1"} />;
+                        })}
                     </div>
                 </Section>
 
