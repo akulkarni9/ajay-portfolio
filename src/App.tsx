@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Linkedin, Github, Menu, X, Briefcase, ArrowUpRight, Download, Eye, ArrowUp, GraduationCap, ChevronDown, Mail } from 'lucide-react';
 
 // --- TYPE DEFINITIONS ---
 
@@ -75,7 +75,7 @@ const portfolioData: PortfolioData = {
   name: "Ajay Kulkarni",
   title: "Engineering Manager - AI/ML & Cloud",
   email: "ajaykulkarni178@gmail.com",
-  linkedin: "https://linkedin.com/in/ajaykulkarni1",
+  linkedin: "https://www.linkedin.com/in/akulkarni178",
   github: "https://github.com/akulkarni9",
   resumeUrl: "/AjayKulkarni-Resume.pdf", // IMPORTANT: Make sure this is a PDF file in your /public folder
   headshotUrl: "/Ajay.jpg", // A placeholder, you can replace this with a path to your image in the /public folder
@@ -101,11 +101,12 @@ const portfolioData: PortfolioData = {
       company: "Accenture",
       period: "Aug 2024 – Present",
       description: [
-        "Leading AI platforms for the insurance industry, architecting scalable, cloud-native systems on Azure.",
+        "Led AI platforms for the insurance industry, architecting scalable, cloud-native systems on Azure.",
         "Developed a Bordereaux Standardization Platform with a GPT-4o engine, reducing manual effort by 40%.",
-        "Driving 'Market Matrix,' a greenfield AI platform, integrating Azure OpenAI with enterprise-grade security.",
+        "Drove 'Market Matrix,' a greenfield AI platform, integrating Azure OpenAI with enterprise-grade security.",
         "Architected an Agentic AI claims system, automating 60% of workflows and improving resolution time by 35%.",
-        "Managing a cross-functional team of 12 engineers and collaborating with PMs and stakeholders."
+        "Managed a cross-functional team of 12 engineers and collaborated with PMs and stakeholders.",
+        "Currently leading the architecture and modernization of an AI-powered Website Monitoring System (WMS) for a tax regulatory intelligence, leveraging Azure-native services, advanced change detection, and LLM-driven compliance analysis."
       ]
     },
     {
@@ -221,23 +222,21 @@ interface ProjectCardProps {
 
 interface ExperienceCardProps {
   exp: ExperienceData;
-  index: number;
 }
 
 interface EducationCardProps {
     edu: EducationData;
-    index: number;
 }
 
 interface BlogCardProps {
   post: BlogData;
-  index: number;
 }
 
 interface SectionProps {
   id: string;
   title: string;
   children: React.ReactNode;
+  className?: string;
 }
 
 interface HeaderProps {
@@ -276,7 +275,7 @@ const SkillPill: React.FC<SkillPillProps> = ({ skill, delay }) => (
 );
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, className = "" }) => (
-    <div className={`bg-white dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${className}`}>
+    <div className={`bg-slate-50 dark:bg-slate-800/50 rounded-xl shadow-lg overflow-hidden border border-slate-200 dark:border-slate-700 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${className}`}>
         <div className="p-6 flex flex-col h-full">
             <div>
                 <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">{project.title}</h3>
@@ -313,7 +312,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({ exp }) => (
             <h3 className="font-bold text-lg text-slate-800 dark:text-white -mt-1">{exp.role}</h3>
             <p className="text-indigo-500 dark:text-indigo-400 text-sm font-medium">{exp.company} | {exp.period}</p>
             <ul className="mt-2 list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5">
-                {exp.description.map((item, i) => <li key={i}>{item}</li>)}
+                {exp.description.map(item => <li key={item}>{item}</li>)}
             </ul>
         </div>
     </div>
@@ -347,10 +346,11 @@ const BlogCard: React.FC<BlogCardProps> = ({ post }) => (
     </a>
 );
 
-const Section: React.FC<SectionProps> = ({ id, title, children }) => (
-    <section id={id} className="py-24 px-4 sm:px-6 lg:px-8">
+const Section: React.FC<SectionProps> = ({ id, title, children, className = "" }) => (
+    <section id={id} className={`py-24 px-4 sm:px-6 lg:px-8 ${className}`}>
         <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-white sm:text-4xl mb-16 text-center">{title}</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-white sm:text-4xl mb-4 text-center">{title}</h2>
+            <div className="w-16 h-1 bg-indigo-500 rounded-full mx-auto mb-16"></div>
             {children}
         </div>
     </section>
@@ -388,17 +388,15 @@ const Header: React.FC<HeaderProps> = ({ activeSection }) => {
                     </div>
                 </div>
             </div>
-            {isOpen && (
-                <div className="md:hidden bg-white/95 dark:bg-slate-950/95">
-                    <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                        {navLinks.map(link => (
-                            <a key={link} href={`#${link.toLowerCase()}`} onClick={() => setIsOpen(false)} className="text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
-                                {link}
-                            </a>
-                        ))}
-                    </div>
+            <div className={`md:hidden bg-white/95 dark:bg-slate-950/95 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    {navLinks.map(link => (
+                        <a key={link} href={`#${link.toLowerCase()}`} onClick={() => setIsOpen(false)} className="text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                            {link}
+                        </a>
+                    ))}
                 </div>
-            )}
+            </div>
         </header>
     );
 };
@@ -433,28 +431,43 @@ const Hero: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <a href="#about" aria-label="Scroll to About section" className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-slate-400 dark:text-slate-500 hover:text-indigo-500 transition-colors">
+                <ChevronDown size={32} />
+            </a>
         </section>
     );
 };
 
-const ResumeViewerModal: React.FC<ResumeViewerModalProps> = ({ url, onClose }) => (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[101] p-4" onClick={onClose}>
-        <div className="bg-white dark:bg-slate-800 rounded-lg w-full max-w-4xl h-[90vh] flex flex-col" onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-center p-4 border-b dark:border-slate-700">
-                <h3 className="font-bold text-lg">Resume</h3>
-                <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
-                    <X size={24} />
-                </button>
+const ResumeViewerModal: React.FC<ResumeViewerModalProps> = ({ url, onClose }) => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
+
+    useEffect(() => {
+        dialogRef.current?.showModal();
+    }, []);
+
+    return (
+        <dialog
+            ref={dialogRef}
+            className="fixed inset-0 m-0 w-full max-w-none h-full max-h-none p-4 bg-transparent flex items-center justify-center"
+            onClose={onClose}
+        >
+            <div className="bg-white dark:bg-slate-800 rounded-lg w-full max-w-4xl h-[90vh] flex flex-col">
+                <div className="flex justify-between items-center p-4 border-b dark:border-slate-700">
+                    <h3 className="font-bold text-lg">Resume</h3>
+                    <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700">
+                        <X size={24} />
+                    </button>
+                </div>
+                <div className="flex-grow">
+                    <iframe src={url} width="100%" height="100%" title="Resume Viewer"></iframe>
+                </div>
             </div>
-            <div className="flex-grow">
-                <iframe src={url} width="100%" height="100%" title="Resume Viewer"></iframe>
-            </div>
-        </div>
-    </div>
-);
+        </dialog>
+    );
+};
 
 const Resume: React.FC<ResumeProps> = ({ setShowResumeViewer }) => (
-    <Section id="resume" title="My Resume">
+    <Section id="resume" title="My Resume" className="bg-white dark:bg-slate-900/50">
         <div className="text-center">
             <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
                 For a more detailed look at my work history, technical skills, and certifications, you can view or download my full resume.
@@ -462,7 +475,7 @@ const Resume: React.FC<ResumeProps> = ({ setShowResumeViewer }) => (
             <div className="flex justify-center items-center space-x-4">
                 <button
                     onClick={() => setShowResumeViewer(true)}
-                    className="inline-flex items-center bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white font-bold py-3 px-6 rounded-full hover:bg-slate-100 dark:hover:bg-slate-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="inline-flex items-center bg-slate-50 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 text-slate-800 dark:text-white font-bold py-3 px-6 rounded-full hover:bg-slate-100 dark:hover:bg-slate-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                     <Eye size={20} className="mr-2" />
                     View Resume
@@ -482,14 +495,18 @@ const Resume: React.FC<ResumeProps> = ({ setShowResumeViewer }) => (
 
 const Contact: React.FC = () => (
     <Section id="contact" title="Get In Touch">
-        <div className="text-center max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-lg p-10 text-center">
             <p className="text-lg text-slate-600 dark:text-slate-300 mb-8">
                 I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Feel free to reach out.
             </p>
-            <a href={`mailto:${portfolioData.email}`} className="text-2xl font-mono text-indigo-500 hover:text-indigo-400 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors">
-                {portfolioData.email}
+            <a
+                href={`mailto:${portfolioData.email}`}
+                className="inline-flex items-center bg-indigo-600 text-white font-bold py-4 px-8 rounded-full hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-indigo-500/50"
+            >
+                <Mail size={20} className="mr-2" />
+                Send an Email
             </a>
-            <div className="flex justify-center space-x-8 mt-10">
+            <div className="flex justify-center space-x-8 mt-10 pt-10 border-t border-slate-200 dark:border-slate-700">
                 <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" aria-label="View Ajay Kulkarni's GitHub profile" className="text-slate-400 hover:text-indigo-500 transition-colors">
                     <Github size={32} />
                 </a>
@@ -581,7 +598,7 @@ export default function App() {
             <main>
                 <Hero />
 
-                <Section id="about" title="About Me">
+                <Section id="about" title="About Me" className="bg-white dark:bg-slate-900/50">
                     <div className="grid md:grid-cols-3 gap-12 items-center">
                         <div className="md:col-span-1">
                             <img src={portfolioData.headshotUrl} alt="Professional headshot of Ajay Kulkarni" className="rounded-full w-64 h-64 mx-auto md:w-full md:h-auto shadow-lg object-cover" />
@@ -627,19 +644,19 @@ export default function App() {
                     </div>
                 </Section>
 
-                <Section id="experience" title="Professional Experience">
+                <Section id="experience" title="Professional Experience" className="bg-white dark:bg-slate-900/50">
                     <div className="max-w-3xl mx-auto flex flex-col">
-                        {portfolioData.experience.map((exp, index) => <ExperienceCard key={index} exp={exp} index={index} />)}
+                        {portfolioData.experience.map(exp => <ExperienceCard key={exp.role} exp={exp} />)}
                     </div>
                 </Section>
 
                 <Section id="education" title="Education">
                     <div className="max-w-3xl mx-auto flex flex-col">
-                        {portfolioData.education.map((edu, index) => <EducationCard key={index} edu={edu} index={index} />)}
+                        {portfolioData.education.map(edu => <EducationCard key={edu.degree} edu={edu} />)}
                     </div>
                 </Section>
 
-                <Section id="projects" title="Featured Projects">
+                <Section id="projects" title="Featured Projects" className="bg-white dark:bg-slate-900/50">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {portfolioData.projects.map((project, index) => {
                             const pairIsEven = Math.floor(index / 2) % 2 === 0;
@@ -652,7 +669,7 @@ export default function App() {
 
                 <Section id="blog" title="From the Blog">
                     <div className="grid md:grid-cols-2 gap-8">
-                        {portfolioData.blog.map((post, index) => <BlogCard key={post.title} post={post} index={index} />)}
+                        {portfolioData.blog.map(post => <BlogCard key={post.title} post={post} />)}
                     </div>
                 </Section>
 
@@ -666,8 +683,16 @@ export default function App() {
             <BackToTopButton />
 
             <footer className="bg-white dark:bg-slate-900/50 py-6 px-4 sm:px-6 lg:px-8 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
-                <div className="max-w-7xl mx-auto flex justify-center items-center text-slate-500 dark:text-slate-400">
+                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-slate-500 dark:text-slate-400">
                     <p>&copy; {new Date().getFullYear()} {portfolioData.name}. All Rights Reserved.</p>
+                    <div className="flex space-x-5">
+                        <a href={portfolioData.github} target="_blank" rel="noopener noreferrer" aria-label="View Ajay Kulkarni's GitHub profile" className="hover:text-indigo-500 transition-colors">
+                            <Github size={20} />
+                        </a>
+                        <a href={portfolioData.linkedin} target="_blank" rel="noopener noreferrer" aria-label="View Ajay Kulkarni's LinkedIn profile" className="hover:text-indigo-500 transition-colors">
+                            <Linkedin size={20} />
+                        </a>
+                    </div>
                 </div>
             </footer>
         </div>

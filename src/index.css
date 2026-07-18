@@ -9,6 +9,10 @@ html {
   scroll-padding-top: 5rem;
 }
 
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out forwards;
   opacity: 0;
