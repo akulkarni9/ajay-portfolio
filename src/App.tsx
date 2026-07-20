@@ -205,6 +205,12 @@ const portfolioData: PortfolioData = {
       excerpt: "Sharing personal insights on how overcoming challenges can forge a unique and powerful leadership style accessible to anyone.",
       link: "https://www.linkedin.com/pulse/leadership-everyone-lessons-from-deaf-professional-ajay-kulkarni-5ewmc/"
     },
+    {
+      title: "Building UtilMaster: A Local-First AI Utility Platform - Part 1",
+      date: "December 17, 2025",
+      excerpt: "An in-depth look at the development of UtilMaster, a local-first AI utility platform, detailing the challenges and solutions encountered during its creation.",
+      link: "https://www.linkedin.com/pulse/building-utilmaster-local-first-ai-utility-platform-part-kulkarni-fbrvc/"
+    },
   ]
 };
 
